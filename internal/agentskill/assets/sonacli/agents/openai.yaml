@@ -1,0 +1,4 @@
+interface:
+  display_name: "Sonacli"
+  short_description: "Use sonacli to configure auth and inspect SonarQube projects and issues from the terminal"
+  default_prompt: "Use $sonacli for the full SonarQube CLI flow: verify auth, set up auth if needed, list projects, list issues for a project, and show a specific issue by key or SonarQube URL."

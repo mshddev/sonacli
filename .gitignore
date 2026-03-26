@@ -1,0 +1,15 @@
+.DS_Store
+
+# Go build and test artifacts
+/sonacli
+*.test
+*.out
+.coverprofile
+coverage.out
+coverage.html
+/tests/fixtures/**/.scannerwork/
+
+
+# Editor swap files
+*.swp
+*.swo
