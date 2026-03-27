@@ -1,18 +1,11 @@
 # Overview
 
-This is `sonacli`, a small CLI for consuming SonarQube analysis reports.
+This is `sonacli`, CLI for consuming SonarQube analysis reports.
 
 The project currently targets:
 
-- SonarQube Community Build v25.x+ only (with MQR Mode)
+- SonarQube Community Build v25.x+ only
 - Linux and macOS only
-
-Out of scope:
-
-- Windows support
-- SonarCloud support
-- SonarQube Server / Data Center support
-- Non-Web API inputs
 
 # Workflow
 
