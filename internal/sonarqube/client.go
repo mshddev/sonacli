@@ -13,11 +13,11 @@ import (
 )
 
 const (
-	validateTokenPath = "/api/authentication/validate"
-	searchIssuesPath  = "/api/issues/search"
+	validateTokenPath  = "/api/authentication/validate"
+	searchIssuesPath   = "/api/issues/search"
 	searchProjectsPath = "/api/projects/search"
 	showComponentPath  = "/api/components/show"
-	defaultTimeout    = 10 * time.Second
+	defaultTimeout     = 10 * time.Second
 )
 
 var ErrInvalidToken = errors.New("token is not valid")

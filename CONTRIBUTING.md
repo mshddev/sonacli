@@ -1,7 +1,11 @@
 # Contributing
-This file contains agent-facing contribution and local setup instructions. 
+This file contains agent-facing contribution and local setup instructions.
+
+These requirements describe the supported local development environment for contributors. They do not redefine the end-user runtime support matrix for `sonacli`; the CLI itself targets Linux and macOS as documented in `README.md`.
 
 ## Requirements
+
+This local contributor workflow is currently supported on macOS only.
 
 - macOS
 - Go 1.26+
