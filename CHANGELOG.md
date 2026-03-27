@@ -8,6 +8,9 @@ All notable user-facing changes to `sonacli` are documented in this file.
 ## [Unreleased]
 - Nothing yet.
 
+## [v0.1.0-rc.3] - 2026-03-27
+- Added a root `install.sh` and simplified `README.md` so users can install `sonacli` directly from `curl` or `wget`.
+
 ## [v0.1.0-rc.2] - 2026-03-27
 
 - Added a project changelog and documented release history for `sonacli`.
@@ -31,6 +34,7 @@ All notable user-facing changes to `sonacli` are documented in this file.
   macOS.
 - Security policy for vulnerability reporting and supported version guidance.
 
-[Unreleased]: https://github.com/mshddev/sonacli/compare/v0.1.0-rc.2...HEAD
+[Unreleased]: https://github.com/mshddev/sonacli/compare/v0.1.0-rc.3...HEAD
+[v0.1.0-rc.3]: https://github.com/mshddev/sonacli/releases/tag/v0.1.0-rc.3
 [v0.1.0-rc.2]: https://github.com/mshddev/sonacli/releases/tag/v0.1.0-rc.2
 [v0.1.0-rc.1]: https://github.com/mshddev/sonacli/releases/tag/v0.1.0-rc.1
