@@ -1,38 +1,47 @@
-# Install Script End-to-End Case
+# 11 Install Script
 
 This case file defines end-to-end coverage for the root `install.sh` installer.
 
-## Preconditions
+## Additional Requirements
 
 - Run from the repository root.
-- Keep one isolated temporary `HOME` for the full run.
+- Use the shared isolated `HOME` approach from [README.md](README.md).
 - `python3`, `tar`, and either `shasum` or `sha256sum` must be available.
+- Write the final Markdown report to `tests/results/11-install-script-testresults.md`.
 
-## Shared Setup
+## Cases
+
+### INSTALL-SCRIPT-01 Install The Latest Release From A Local Fixture Server
+
+#### Execute
 
 ```sh
-export ORIGINAL_HOME="${HOME:-}"
-export TEST_HOME="$(mktemp -d)"
-export HOME="$TEST_HOME"
-export INSTALL_FIXTURE_ROOT="$(mktemp -d)"
-export INSTALL_STDOUT_FILE="$(mktemp)"
-export INSTALL_STDERR_FILE="$(mktemp)"
-export INSTALL_BIN_DIR="$HOME/.local/bin"
-export TEST_VERSION="v9.8.7"
+STDOUT_FILE="$(mktemp)"
+STDERR_FILE="$(mktemp)"
+VERIFY_STDOUT_FILE="$(mktemp)"
+VERIFY_STDERR_FILE="$(mktemp)"
+EXPECTED_STDOUT_FILE="$(mktemp)"
+EXPECTED_STDERR_FILE="$(mktemp)"
+EXPECTED_VERIFY_STDOUT_FILE="$(mktemp)"
+ACTUAL_FILE_LIST="$(mktemp)"
+EXPECTED_FILE_LIST="$(mktemp)"
+INSTALL_FIXTURE_ROOT="$(mktemp -d)"
+INSTALL_BIN_DIR="$HOME/.local/bin"
+TEST_VERSION="v9.8.7"
 
 case "$(uname -s)" in
-  Linux) export TEST_GOOS="linux" ;;
-  Darwin) export TEST_GOOS="darwin" ;;
+  Linux) TEST_GOOS="linux" ;;
+  Darwin) TEST_GOOS="darwin" ;;
   *) echo "unsupported OS" >&2; exit 1 ;;
 esac
 
 case "$(uname -m)" in
-  x86_64|amd64) export TEST_GOARCH="amd64" ;;
-  arm64|aarch64) export TEST_GOARCH="arm64" ;;
+  x86_64|amd64) TEST_GOARCH="amd64" ;;
+  arm64|aarch64) TEST_GOARCH="arm64" ;;
   *) echo "unsupported architecture" >&2; exit 1 ;;
 esac
 
-export TEST_ASSET_BASENAME="sonacli_${TEST_VERSION#v}_${TEST_GOOS}_${TEST_GOARCH}"
+TEST_ASSET_BASENAME="sonacli_${TEST_VERSION#v}_${TEST_GOOS}_${TEST_GOARCH}"
 
 mkdir -p "$INSTALL_FIXTURE_ROOT/repos/mshddev/sonacli/releases"
 mkdir -p "$INSTALL_FIXTURE_ROOT/download/$TEST_VERSION"
@@ -65,8 +74,23 @@ else
   )
 fi
 
-export INSTALL_SERVER_PORT_FILE="$INSTALL_FIXTURE_ROOT/server.port"
-export INSTALL_SERVER_LOG="$INSTALL_FIXTURE_ROOT/server.log"
+cat >"$EXPECTED_STDOUT_FILE" <<EOF
+installed sonacli $TEST_VERSION to $INSTALL_BIN_DIR/sonacli
+add $INSTALL_BIN_DIR to your PATH, for example: export PATH="$INSTALL_BIN_DIR:\$PATH"
+EOF
+
+: >"$EXPECTED_STDERR_FILE"
+printf '%s\n' "fake sonacli $TEST_VERSION" >"$EXPECTED_VERIFY_STDOUT_FILE"
+
+cat >"$EXPECTED_FILE_LIST" <<EOF
+$HOME
+$HOME/.local
+$HOME/.local/bin
+$HOME/.local/bin/sonacli
+EOF
+
+INSTALL_SERVER_PORT_FILE="$INSTALL_FIXTURE_ROOT/server.port"
+INSTALL_SERVER_LOG="$INSTALL_FIXTURE_ROOT/server.log"
 
 python3 - <<'PY' "$INSTALL_FIXTURE_ROOT" "$INSTALL_SERVER_PORT_FILE" >"$INSTALL_SERVER_LOG" 2>&1 &
 import functools
@@ -84,57 +108,57 @@ with socketserver.TCPServer(("127.0.0.1", 0), handler) as httpd:
     httpd.serve_forever()
 PY
 
-export INSTALL_SERVER_PID=$!
+INSTALL_SERVER_PID=$!
 
 while [ ! -s "$INSTALL_SERVER_PORT_FILE" ]; do
   sleep 1
 done
 
-export INSTALL_SERVER_PORT="$(cat "$INSTALL_SERVER_PORT_FILE")"
-```
+INSTALL_SERVER_PORT="$(cat "$INSTALL_SERVER_PORT_FILE")"
 
-## Case INSTALL-SCRIPT-01
-
-Install the latest release from the local fixture server.
-
-```sh
 PATH="/usr/bin:/bin:/usr/sbin:/sbin" \
 SONACLI_INSTALL_API_BASE="http://127.0.0.1:$INSTALL_SERVER_PORT" \
 SONACLI_INSTALL_DOWNLOAD_BASE="http://127.0.0.1:$INSTALL_SERVER_PORT/download" \
-sh ./install.sh --install-dir "$INSTALL_BIN_DIR" >"$INSTALL_STDOUT_FILE" 2>"$INSTALL_STDERR_FILE"
+sh ./install.sh --install-dir "$INSTALL_BIN_DIR" >"$STDOUT_FILE" 2>"$STDERR_FILE"
+EXIT_CODE=$?
+
+"$INSTALL_BIN_DIR/sonacli" >"$VERIFY_STDOUT_FILE" 2>"$VERIFY_STDERR_FILE"
+VERIFY_EXIT_CODE=$?
+
+find "$HOME" -print | LC_ALL=C sort >"$ACTUAL_FILE_LIST"
 ```
 
-Expected:
-
-- Exit code `0`
-- `"$INSTALL_BIN_DIR/sonacli"` exists and is executable
-- stdout reports the installed path
-- stderr is empty
-
-Verify the installed binary:
+#### Verify
 
 ```sh
-"$INSTALL_BIN_DIR/sonacli"
+test "$EXIT_CODE" -eq 0
+test "$VERIFY_EXIT_CODE" -eq 0
+cmp -s "$STDOUT_FILE" "$EXPECTED_STDOUT_FILE"
+cmp -s "$STDERR_FILE" "$EXPECTED_STDERR_FILE"
+cmp -s "$VERIFY_STDOUT_FILE" "$EXPECTED_VERIFY_STDOUT_FILE"
+test ! -s "$VERIFY_STDERR_FILE"
+cmp -s "$ACTUAL_FILE_LIST" "$EXPECTED_FILE_LIST"
 ```
 
-Expected stdout:
+If any assertion fails, capture the mismatch:
 
-```text
-fake sonacli v9.8.7
+```sh
+printf 'install_exit=%s\n' "$EXIT_CODE"
+printf 'verify_exit=%s\n' "$VERIFY_EXIT_CODE"
+diff -u "$EXPECTED_STDOUT_FILE" "$STDOUT_FILE"
+diff -u "$EXPECTED_STDERR_FILE" "$STDERR_FILE"
+diff -u "$EXPECTED_VERIFY_STDOUT_FILE" "$VERIFY_STDOUT_FILE"
+cat "$VERIFY_STDERR_FILE"
+diff -u "$EXPECTED_FILE_LIST" "$ACTUAL_FILE_LIST"
 ```
 
-## Cleanup
+Remove case-specific files after verification:
 
 ```sh
 kill "$INSTALL_SERVER_PID"
 wait "$INSTALL_SERVER_PID" 2>/dev/null || true
-rm -f "$INSTALL_STDOUT_FILE" "$INSTALL_STDERR_FILE"
-rm -rf "$INSTALL_FIXTURE_ROOT" "$TEST_HOME"
-if [ -n "${ORIGINAL_HOME:-}" ]; then
-  export HOME="$ORIGINAL_HOME"
-else
-  unset HOME
-fi
-unset ORIGINAL_HOME TEST_HOME INSTALL_FIXTURE_ROOT INSTALL_STDOUT_FILE INSTALL_STDERR_FILE INSTALL_BIN_DIR
-unset TEST_VERSION TEST_GOOS TEST_GOARCH TEST_ASSET_BASENAME INSTALL_SERVER_PORT_FILE INSTALL_SERVER_LOG
-unset INSTALL_SERVER_PID INSTALL_SERVER_PORT
+rm -rf "$INSTALL_FIXTURE_ROOT"
+rm -f "$STDOUT_FILE" "$STDERR_FILE" "$VERIFY_STDOUT_FILE" "$VERIFY_STDERR_FILE"
+rm -f "$EXPECTED_STDOUT_FILE" "$EXPECTED_STDERR_FILE" "$EXPECTED_VERIFY_STDOUT_FILE"
+rm -f "$ACTUAL_FILE_LIST" "$EXPECTED_FILE_LIST"
+```
