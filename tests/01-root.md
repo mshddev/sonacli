@@ -35,6 +35,8 @@ Available Commands:
   issue       Read SonarQube issues
   project     Read SonarQube projects
   skill       Manage agent skills for sonacli
+  star        Star the sonacli GitHub repository
+  update      Update sonacli to the latest version
   version     Print the sonacli version
 Flags:
   -h, --help   help for sonacli
@@ -97,6 +99,8 @@ Available Commands:
   issue       Read SonarQube issues
   project     Read SonarQube projects
   skill       Manage agent skills for sonacli
+  star        Star the sonacli GitHub repository
+  update      Update sonacli to the latest version
   version     Print the sonacli version
 Flags:
   -h, --help   help for sonacli
@@ -157,6 +161,8 @@ Available Commands:
   issue       Read SonarQube issues
   project     Read SonarQube projects
   skill       Manage agent skills for sonacli
+  star        Star the sonacli GitHub repository
+  update      Update sonacli to the latest version
   version     Print the sonacli version
 Flags:
   -h, --help   help for sonacli

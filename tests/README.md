@@ -104,6 +104,8 @@ Case files that generate temporary tokens are responsible for revoking them duri
 | [09-project-list.md](09-project-list.md) | Yes | Requires saved auth config and the sample project seeded during shared setup |
 | [10-group-commands.md](10-group-commands.md) | No | CLI-only coverage for grouped commands rejecting unknown subcommands |
 | [11-install-script.md](11-install-script.md) | No | Uses a local HTTP fixture to validate the release installer script |
+| [12-update.md](12-update.md) | No | Uses a local HTTP fixture and a copied binary to validate self-update behavior |
+| [13-star.md](13-star.md) | No | Uses a fake browser opener on `PATH` to validate repository opening behavior |
 
 Each case file may define additional requirements beyond the shared setup, read the case file for details.
 
