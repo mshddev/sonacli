@@ -44,6 +44,7 @@ sonacli issue show 'https://sonarqube.example.com/project/issues?id=my-project&i
 
 ## Documentation
 
+- [CHANGELOG.md](CHANGELOG.md): user-facing release notes and release history
 - [docs/cli.md](docs/cli.md): source-derived command reference, config details, skill installation behavior, and versioning notes
 - [CONTRIBUTING.md](CONTRIBUTING.md): local environment setup, SonarQube bootstrap, and repository workflow
 - [tests/README.md](tests/README.md): end-to-end execution and reporting rules
