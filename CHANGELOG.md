@@ -8,6 +8,14 @@ All notable user-facing changes to `sonacli` are documented in this file.
 ## [Unreleased]
 - Nothing yet.
 
+## [v0.1.0-rc.2] - 2026-03-27
+
+- Added a project changelog and documented release history for `sonacli`.
+- GitHub releases now publish notes from `CHANGELOG.md` instead of generated
+  release notes.
+- Documented the protected-`main` branch workflow and the release runbook for
+  contributors and agents.
+
 ## [v0.1.0-rc.1] - 2026-03-27
 
 - Initial public pre-release of the `sonacli` CLI for SonarQube Community
@@ -23,5 +31,6 @@ All notable user-facing changes to `sonacli` are documented in this file.
   macOS.
 - Security policy for vulnerability reporting and supported version guidance.
 
-[Unreleased]: https://github.com/mshddev/sonacli/compare/v0.1.0-rc.1...HEAD
+[Unreleased]: https://github.com/mshddev/sonacli/compare/v0.1.0-rc.2...HEAD
+[v0.1.0-rc.2]: https://github.com/mshddev/sonacli/releases/tag/v0.1.0-rc.2
 [v0.1.0-rc.1]: https://github.com/mshddev/sonacli/releases/tag/v0.1.0-rc.1
