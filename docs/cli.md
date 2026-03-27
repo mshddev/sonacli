@@ -118,6 +118,35 @@ sonacli skill uninstall --codex
 | `--claude` | Remove from Claude Code |
 | `--codex` | Remove from Codex |
 
+## Repository
+
+### `sonacli star`
+
+Open the `sonacli` GitHub repository in your default browser so you can star it manually.
+
+```sh
+sonacli star
+```
+
+On macOS this uses `open`. On Linux this uses `xdg-open`.
+
+## Updating
+
+### `sonacli update`
+
+Download the matching GitHub release archive for the current OS and CPU, verify `checksums.txt`, and replace the running `sonacli` executable in place.
+
+```sh
+sonacli update
+sonacli update --version v0.1.0-rc.3
+```
+
+If the requested tag matches the current build version, `sonacli` reports that it is already installed and exits without replacing the binary.
+
+| Flag | Description |
+|------|-------------|
+| `--version` | Install a specific release tag instead of the latest release |
+
 ## Versioning
 
 ### `sonacli version`

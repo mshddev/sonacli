@@ -54,7 +54,7 @@ func NewRootCmd(stdout, stderr io.Writer) *cobra.Command {
 	})
 	cmd.CompletionOptions.DisableDefaultCmd = true
 	cmd.InitDefaultHelpFlag()
-	cmd.AddCommand(NewAuthCmd(), NewIssueCmd(), NewProjectCmd(), NewSkillCmd(), NewVersionCmd())
+	cmd.AddCommand(NewAuthCmd(), NewIssueCmd(), NewProjectCmd(), NewSkillCmd(), NewStarCmd(), NewUpdateCmd(), NewVersionCmd())
 
 	return cmd
 }

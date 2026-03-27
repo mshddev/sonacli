@@ -34,6 +34,13 @@ curl -fsSL https://raw.githubusercontent.com/mshddev/sonacli/main/install.sh | s
 
 The installer downloads the matching GitHub release archive for your OS and CPU, verifies `checksums.txt`, installs `sonacli`, and prints a `PATH` hint when needed.
 
+After installing from a release, update the binary in place with:
+
+```sh
+sonacli update
+sonacli update --version v0.1.0-rc.3
+```
+
 ### Build from source
 
 ```sh

@@ -94,6 +94,14 @@ func assertRootHelp(t *testing.T, output string) {
 		t.Fatalf("expected skill command to be listed, got %q", output)
 	}
 
+	if !strings.Contains(output, "star") || !strings.Contains(output, "Star the sonacli GitHub repository") {
+		t.Fatalf("expected star command to be listed, got %q", output)
+	}
+
+	if !strings.Contains(output, "update") || !strings.Contains(output, "Update sonacli to the latest version") {
+		t.Fatalf("expected update command to be listed, got %q", output)
+	}
+
 	if !strings.Contains(output, "version") {
 		t.Fatalf("expected version command to be listed, got %q", output)
 	}
