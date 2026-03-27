@@ -6,7 +6,7 @@ All notable user-facing changes to `sonacli` are documented in this file.
 [CONTRIBUTING.md](CONTRIBUTING.md) for when and how to update it.
 
 ## [Unreleased]
-- Nothing yet.
+- Added a root `install.sh` and simplified `README.md` so users can install `sonacli` directly from `curl` or `wget`.
 
 ## [v0.1.0-rc.2] - 2026-03-27
 

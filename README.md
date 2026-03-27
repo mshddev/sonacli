@@ -11,7 +11,30 @@
 
 ## Install
 
-### Recommended: build from source
+### Quick install
+
+Install the latest GitHub release:
+
+```sh
+curl -fsSL https://raw.githubusercontent.com/mshddev/sonacli/main/install.sh | sh
+```
+
+Or with `wget`:
+
+```sh
+wget -qO- https://raw.githubusercontent.com/mshddev/sonacli/main/install.sh | sh
+```
+
+Install a specific release or choose a custom install directory:
+
+```sh
+curl -fsSL https://raw.githubusercontent.com/mshddev/sonacli/main/install.sh | sh -s -- --version v0.1.0-rc.2
+curl -fsSL https://raw.githubusercontent.com/mshddev/sonacli/main/install.sh | sh -s -- --install-dir "$HOME/.local/bin"
+```
+
+The installer downloads the matching GitHub release archive for your OS and CPU, verifies `checksums.txt`, installs `sonacli`, and prints a `PATH` hint when needed.
+
+### Build from source
 
 ```sh
 make build
