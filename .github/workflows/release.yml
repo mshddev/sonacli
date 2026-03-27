@@ -77,6 +77,9 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
       - name: Download release archives
         uses: actions/download-artifact@v8
         with:
@@ -89,6 +92,13 @@ jobs:
         run: |
           set -euo pipefail
           shasum -a 256 *.tar.gz > checksums.txt
+
+      - name: Prepare release notes
+        env:
+          VERSION: ${{ github.ref_name }}
+        run: |
+          set -euo pipefail
+          ./scripts/changelog-release-notes.sh "$VERSION" > dist/release-notes.md
 
       - name: Create or update GitHub release
         env:
@@ -104,11 +114,16 @@ jobs:
           fi
 
           if gh release view "$VERSION" >/dev/null 2>&1; then
+            gh release edit "$VERSION" \
+              --title "$VERSION" \
+              --notes-file dist/release-notes.md \
+              "${prerelease_args[@]}"
             gh release upload "$VERSION" dist/*.tar.gz dist/checksums.txt --clobber
           else
             gh release create "$VERSION" \
               --verify-tag \
-              --generate-notes \
+              --title "$VERSION" \
+              --notes-file dist/release-notes.md \
               "${prerelease_args[@]}" \
               dist/*.tar.gz \
               dist/checksums.txt
