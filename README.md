@@ -1,6 +1,20 @@
-# sonacli
+<p align="center">
+  <img src="sonacli-logo.png" alt="sonacli logo" width="200">
+</p>
 
-`sonacli` is a CLI for consuming SonarQube analysis reports.
+<h1 align="center">sonacli</h1>
+
+<p align="center">A CLI for consuming SonarQube analysis reports.</p>
+
+<p align="center">
+  <a href="https://github.com/mshddev/sonacli/releases"><img src="https://img.shields.io/github/v/release/mshddev/sonacli?sort=semver" alt="Release"></a>
+  <a href="https://github.com/mshddev/sonacli/actions/workflows/ci.yml"><img src="https://github.com/mshddev/sonacli/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/github/license/mshddev/sonacli" alt="License"></a>
+</p>
+
+<p align="center">
+  <img src="docs/demo.gif" alt="sonacli demo — auth, project list, issue list with jq, severity filter, and SonarQube URL parsing" width="800">
+</p>
 
 > SonarQube is an open-source platform for continuous inspection of code quality and security. It ships in several editions: **Community Build** (free, open-source, single-node), **Server** (commercial), **Data Center** (high-availability), and **Cloud** (SaaS, hosted by Sonar). `sonacli` targets the Community Build only.
 
